@@ -5,7 +5,7 @@ NOBROTLI="${NOBROTLI:-false}"
 cd /tmp
 
 >&2 echo "INFO: Building firefox.zip."
-zip -r firefox.zip /tmp/firefox $(cat /rpm.manifest)
+zip -r firefox.zip /tmp/firefox /usr/local/bin/geckodriver $(cat /rpm.manifest)
 
 # Build firefox.br
 if test "$NOBROTLI" != "true"
