@@ -49,7 +49,14 @@ RUN cd /tmp && \
     mv geckodriver /usr/local/bin && \
     ln -s $PWD/firefox/firefox /usr/local/bin/firefox
 
+# Next, we'll compile a list of files installed today so that we can generate
+# a manifest of files to add to our package.
+RUN rpm -qa --last | \
+      grep "$( date +"%a %d %b %Y")" | \
+      cut -f1 -d ' ' | \
+      xargs rpm -ql > /rpm.manifest
+
 # Lastly, we do the thing.
 FROM geckodriver as app
 COPY ./entrypoint.sh /entrypoint.sh
-RUN [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
