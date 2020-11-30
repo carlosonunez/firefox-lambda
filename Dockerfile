@@ -56,6 +56,9 @@ RUN rpm -qa --last | \
       cut -f1 -d ' ' | \
       xargs rpm -ql > /rpm.manifest
 
+# Now we remove stuff that isn't needed to reduce our layer size.
+RUN rm -r /usr/share/{doc,locale,man,bash-completion}
+
 # Lastly, we do the thing.
 FROM geckodriver as app
 COPY ./entrypoint.sh /entrypoint.sh
